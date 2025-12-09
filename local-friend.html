@@ -20,27 +20,49 @@
             background: linear-gradient(90deg, #FFEFE6 0%, #EDFAFA 100%);
         }
         
-        .ai-floating-bar-shadow {
-            box-shadow: 0px -4px 10px 0px rgba(255, 91, 0, 0.2);
+        /* Animated Flowing Gradient & Shadow */
+        @keyframes flowGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
 
-        /* The Gradient Border Container */
         .ai-border-gradient-wrapper {
-            background: conic-gradient(from 0deg at 50% 50%, 
-                rgba(77, 70, 211, 1) 12%, 
-                rgba(32, 115, 249, 1) 33%, 
-                rgba(8, 180, 185, 1) 46%, 
-                rgba(56, 199, 140, 1) 55%, 
-                rgba(255, 194, 0, 1) 67%, 
-                rgba(255, 91, 0, 1) 83%, 
-                rgba(245, 73, 202, 1) 97%);
+            position: relative;
+            /* Linear gradient for flowing effect */
+            background: linear-gradient(
+                90deg, 
+                #4D46D3, #2073F9, #08B4B9, #38C78C, #FFC200, #FF5B00, #F549CA, 
+                #4D46D3, #2073F9
+            );
+            background-size: 200% 100%;
+            animation: flowGradient 3s linear infinite;
+            
             border-radius: 20px 20px 0 0;
-            padding: 1px 1px 0 1px; /* Top, Right, Bottom=0, Left */
+            padding: 1px 1px 0 1px;
+            /* No overflow hidden, so shadow can show */
+        }
+
+        /* The Glowing Shadow */
+        .ai-border-gradient-wrapper::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: inherit; /* Use same gradient */
+            background-size: inherit;
+            animation: inherit; /* Sync animation */
+            border-radius: 20px 20px 0 0;
+            filter: blur(12px);
+            opacity: 0.6;
+            transform: translateY(4px);
         }
 
         .ai-content-inner {
-            border-radius: 19px 19px 0 0; /* Slightly smaller to fit inside */
+            border-radius: 19px 19px 0 0;
             height: 100%;
+            /* Ensure background covers the center */
+            position: relative;
+            z-index: 1; 
         }
 
         /* Animations */
