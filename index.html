@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI Travel Buddy - Pre Trip</title>
+    <!-- Tailwind CSS (CDN for prototyping) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Poppins & Noto Sans SC -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Brand Colors --- */
+        :root {
+            --klook-orange: #FF5B00;
+            --klook-cyan: #00CBD1;
+            --klook-purple: #4D40CC;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f3f4f6; /* gray-100 */
+        }
+
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Hide Scrollbar but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Message Bubble Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        /* Drawer Transition */
+        .drawer-transition {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="h-screen w-full flex justify-center overflow-hidden">
+
+    <!-- Mobile Container (Max width for desktop view) -->
+    <div class="w-full max-w-md h-full bg-gray-50 flex flex-col relative shadow-2xl">
+
+        <!-- 1. Header -->
+        <header class="bg-white/90 backdrop-blur-md px-4 py-3 sticky top-0 z-10 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
+            <div class="flex items-center">
+                <div class="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></div>
+                <h1 class="font-bold text-gray-800 text-lg">冲绳行前群 (2)</h1>
+            </div>
+            <button class="text-gray-400">
+                <i data-lucide="more-horizontal"></i>
+            </button>
+        </header>
+
+        <!-- 2. Chat Area -->
+        <main id="chat-container" class="flex-1 overflow-y-auto p-4 pb-24 scroll-smooth">
+            <div class="text-center text-xs text-gray-400 mb-6 mt-2">
+                2023年10月24日 下午 14:30
+            </div>
+
+            <!-- Initial AI Messages -->
+            <!-- Msg 1 -->
+            <div class="flex w-full mb-4 animate-fade-in">
+                <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center mr-2 flex-shrink-0 border border-gray-200 text-lg">🤖</div>
+                <div class="bg-white text-gray-800 px-4 py-3 rounded-2xl rounded-tl-none border border-gray-100 shadow-sm max-w-[80%] text-sm leading-relaxed">
+                    嗨！我是你在冲绳的本地朋友 K-Bot。🍊
+                </div>
+            </div>
+
+            <!-- Msg 2 -->
+            <div class="flex w-full mb-4 animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center mr-2 flex-shrink-0 border border-gray-200 text-lg">🤖</div>
+                <div class="bg-white text-gray-800 px-4 py-3 rounded-2xl rounded-tl-none border border-gray-100 shadow-sm max-w-[80%] text-sm leading-relaxed">
+                    看到你这次计划玩 5 天，主要想放松。那我建议我们避开国际通，直接去北部看海？这是大概的方位。
+                </div>
+            </div>
+
+            <!-- Msg 3 (Map Card) -->
+            <div class="flex w-full mb-4 animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="w-8 h-8 rounded-full bg-transparent flex items-center justify-center mr-2 flex-shrink-0"></div> <!-- Placeholder for alignment -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 w-64 cursor-pointer hover:shadow-md transition-shadow">
+                    <div class="h-32 bg-blue-50 relative flex items-center justify-center overflow-hidden group">
+                        <!-- Mock Map Background -->
+                        <div class="absolute inset-0 bg-[url('https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/127.9,26.6,9,0/600x400?access_token=pk.eyJ1IjoibWluZyIsImEiOiJjbG5...')] bg-cover opacity-30"></div> 
+                        <!-- Fallback visual if no map image -->
+                        <div class="z-10 text-blue-400">
+                             <i data-lucide="map-pin" size="32"></i>
+                        </div>
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-full text-xs font-medium text-gray-600 shadow-sm">
+                             冲绳北部
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h4 class="font-bold text-gray-800 text-sm mb-1">推荐探索区域</h4>
+                        <p class="text-xs text-gray-500">包括古宇利岛、美丽海水族馆区域</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- 3. Input Area -->
+        <div class="absolute bottom-0 left-0 right-0 bg-white p-4 border-t border-gray-100 z-20 pb-8 safe-area-bottom">
+            <div class="flex items-center bg-gray-100 rounded-full px-4 py-2">
+                <input 
+                    type="text" 
+                    id="user-input"
+                    placeholder="问问有什么好吃的..." 
+                    class="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400 h-6"
+                >
+                <button 
+                    id="send-btn"
+                    class="ml-2 p-2 rounded-full bg-gray-200 text-gray-400 transition-all hover:bg-[#FF5B00] hover:text-white"
+                >
+                    <i data-lucide="send" size="16"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 4. Bucket List Drawer -->
+        <!-- Overlay (Hidden by default) -->
+        <div id="drawer-overlay" class="fixed inset-0 bg-black/20 z-30 hidden opacity-0 transition-opacity"></div>
+        
+        <!-- Drawer Content -->
+        <div id="drawer" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-3xl shadow-[0_-4px_20px_rgba(0,0,0,0.1)] z-40 transform translate-y-[calc(100%-60px)] drawer-transition h-[70vh]">
+            
+            <!-- Handle Area (Click to toggle) -->
+            <div id="drawer-handle" class="w-full h-10 flex items-center justify-center cursor-pointer hover:bg-gray-50 rounded-t-3xl">
+                <div class="w-12 h-1.5 bg-gray-200 rounded-full"></div>
+            </div>
+
+            <!-- Header -->
+            <div class="px-6 pb-2 flex justify-between items-center border-b border-gray-50">
+                <div>
+                    <h2 class="text-lg font-bold text-gray-800 flex items-center">
+                        我的心愿单 
+                        <span class="ml-2 text-xs font-normal text-white bg-[#FF5B00] px-1.5 py-0.5 rounded-full" id="bucket-count">0</span>
+                    </h2>
+                </div>
+                <button class="text-sm font-medium text-[#00CBD1] flex items-center hover:opacity-80">
+                    生成路线 <i data-lucide="navigation" size="14" class="ml-1"></i>
+                </button>
+            </div>
+
+            <!-- List Content -->
+            <div id="bucket-list-content" class="p-4 overflow-y-auto h-[calc(100%-80px)] scroll-smooth">
+                <!-- Empty State -->
+                <div id="empty-state" class="text-center py-10">
+                    <div class="bg-orange-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="heart" class="text-[#FF5B00] opacity-50"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm">还没添加地点哦，<br>点击对话卡片上的 + 号收藏</p>
+                </div>
+                <!-- Items will be injected here -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Logic Script -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Constants
+        const MOCK_POIS = [
+            {
+                id: 1,
+                name: '大家 (Ufuya) 百年古宅',
+                tags: ['本地必吃', '阿古猪'],
+                image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=800',
+                price: '¥3000/人',
+                rating: 4.8,
+                desc: '隐藏在森林里的百年古宅。'
+            },
+            {
+                id: 2,
+                name: '古宇利岛 (Kouri Island)',
+                tags: ['果冻海', '自驾天堂'],
+                image: 'https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&q=80&w=800',
+                price: '免费',
+                rating: 4.9,
+                desc: '开车穿过跨海大桥的瞬间，绝美。'
+            }
+        ];
+
+        // State
+        let bucketList = [];
+        let isDrawerOpen = false;
+
+        // Elements
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const drawer = document.getElementById('drawer');
+        const drawerHandle = document.getElementById('drawer-handle');
+        const bucketContent = document.getElementById('bucket-list-content');
+        const emptyState = document.getElementById('empty-state');
+        const bucketCount = document.getElementById('bucket-count');
+
+        // --- Functions ---
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function toggleDrawer(open) {
+            isDrawerOpen = open !== undefined ? open : !isDrawerOpen;
+            if (isDrawerOpen) {
+                drawer.classList.remove('translate-y-[calc(100%-60px)]');
+                drawer.classList.add('translate-y-0');
+            } else {
+                drawer.classList.add('translate-y-[calc(100%-60px)]');
+                drawer.classList.remove('translate-y-0');
+            }
+        }
+
+        function addToBucket(id) {
+            const item = MOCK_POIS.find(p => p.id === id);
+            if (item && !bucketList.some(i => i.id === id)) {
+                bucketList.push(item);
+                renderBucketList();
+                
+                // Feedback: Open drawer slightly then close or just bounce
+                // Simple animation feedback on the count
+                bucketCount.classList.add('scale-125');
+                setTimeout(() => bucketCount.classList.remove('scale-125'), 200);
+            }
+        }
+
+        function renderBucketList() {
+            bucketCount.textContent = bucketList.length;
+            
+            if (bucketList.length > 0) {
+                emptyState.style.display = 'none';
+                // Clear current list (except empty state which is hidden)
+                // Re-render all (simple implementation)
+                bucketContent.innerHTML = ''; 
+                
+                bucketList.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'flex items-center p-3 mb-3 bg-gray-50 rounded-xl border border-gray-100 animate-fade-in';
+                    el.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0">
+                        <div class="ml-3 flex-1 min-w-0">
+                            <h4 class="font-bold text-gray-800 text-sm truncate">${item.name}</h4>
+                            <div class="flex gap-2 mt-1">
+                                ${item.tags.map(tag => `<span class="px-1.5 py-0.5 bg-white text-[10px] text-gray-500 rounded border border-gray-200">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                        <button class="text-[#FF5B00] px-2">
+                            <i data-lucide="check-circle" size="18" class="fill-current text-orange-100"></i>
+                        </button>
+                    `;
+                    bucketContent.appendChild(el);
+                });
+                lucide.createIcons();
+            }
+        }
+
+        function appendUserMessage(text) {
+            const div = document.createElement('div');
+            div.className = 'flex w-full mb-4 justify-end animate-fade-in';
+            div.innerHTML = `
+                <div class="bg-[#FF5B00] text-white px-4 py-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%] text-sm leading-relaxed">
+                    ${text}
+                </div>
+            `;
+            chatContainer.appendChild(div);
+            scrollToBottom();
+        }
+
+        function appendAiMessage(text) {
+            const div = document.createElement('div');
+            div.className = 'flex w-full mb-4 animate-fade-in';
+            div.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center mr-2 flex-shrink-0 border border-gray-200 text-lg">🤖</div>
+                <div class="bg-white text-gray-800 px-4 py-3 rounded-2xl rounded-tl-none border border-gray-100 shadow-sm max-w-[80%] text-sm leading-relaxed">
+                    ${text}
+                </div>
+            `;
+            chatContainer.appendChild(div);
+            scrollToBottom();
+        }
+
+        function appendCarousel() {
+            const container = document.createElement('div');
+            container.className = 'flex overflow-x-auto pb-4 px-10 snap-x hide-scrollbar mb-4 animate-fade-in pl-12'; // Added left padding for alignment
+            
+            MOCK_POIS.forEach(poi => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 flex-shrink-0 w-60 mr-3 snap-center relative';
+                card.innerHTML = `
+                    <div class="h-32 relative">
+                        <img src="${poi.image}" alt="${poi.name}" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-full text-xs font-bold flex items-center text-gray-700">
+                            <i data-lucide="star" size="10" class="text-yellow-400 mr-1 fill-current"></i> ${poi.rating}
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-gray-800 text-sm line-clamp-1">${poi.name}</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-3 line-clamp-2">${poi.desc}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-medium text-gray-400">${poi.price}</span>
+                            <button onclick="addToBucket(${poi.id})" class="p-2 rounded-full bg-gray-50 hover:bg-orange-50 text-gray-400 hover:text-[#FF5B00] transition-colors border border-gray-100">
+                                <i data-lucide="plus" size="16"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            
+            chatContainer.appendChild(container);
+            lucide.createIcons();
+            scrollToBottom();
+        }
+
+        // --- Event Listeners ---
+
+        sendBtn.addEventListener('click', () => {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // 1. User Message
+            appendUserMessage(text);
+            userInput.value = '';
+            
+            // 2. Simulate AI Typing & Response
+            setTimeout(() => {
+                appendAiMessage('既然去了北部，这两家非常值得一去！一家是吃猪肉火锅的，另一家适合兜风拍照。👇');
+                
+                // 3. Show Carousel
+                setTimeout(() => {
+                    appendCarousel();
+                }, 600);
+            }, 800);
+        });
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendBtn.click();
+        });
+
+        drawerHandle.addEventListener('click', () => toggleDrawer());
+
+        // Initial scroll
+        window.onload = scrollToBottom;
+
+    </script>
+</body>
+</html>
+
