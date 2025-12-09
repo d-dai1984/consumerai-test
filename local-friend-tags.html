@@ -149,56 +149,63 @@
                     <div class="text-center mb-6">
                         <span class="text-[#8A8A8A] text-[12px] font-poppins">14:25</span>
                     </div>
-                    <!-- User -->
+                    <!-- User Message (Right) -->
                     <div class="flex flex-col items-end gap-1 mb-6">
                         <div class="bg-[#ECF3FC] px-4 py-3 rounded-[24px] rounded-tr-[4px] max-w-[85%]">
                             <p class="text-[#212121] text-[14px] font-poppins leading-normal">
-                                第一次去北海道，有点不知道怎么玩，主要是不想太累。
+                                First time in Hokkaido! ❄️ Want the highlights but wanna keep it chill. Any pro tips?
                             </p>
                         </div>
                     </div>
-                    <!-- Bot -->
+
+                    <!-- Bot Message (Left) -->
                     <div class="flex flex-col gap-1 mb-6 animate-[fadeIn_0.3s_ease-out]">
+                        <!-- Bot Name -->
                         <div class="flex items-center gap-2 mb-1">
                             <span class="text-[#8A8A8A] text-[12px] font-poppins">Local Friend</span>
                         </div>
+                        
                         <div class="flex gap-2 items-start">
+                             <!-- Message Card -->
                              <div class="bg-white border-[1.5px] border-[#EEEEEE] rounded-[16px] p-3 max-w-[85%] shadow-sm">
                                 <p class="text-[#212121] text-[14px] font-poppins leading-normal mb-3">
-                                    第一次去的话，千万别贪心！北海道很大的。<br><br>如果不自驾，我建议只锁定<b>札幌、小樽、登别</b>这三个经典三角区，交通方便又轻松。🚆
+                                    Got you! For a first trip, the <b>'Golden Triangle'</b> is the move. 👇<br><br>Skip the long travel times. Stick to <b>Sapporo, Otaru, & Noboribetsu</b>. Best food, snowy vibes, and super easy trains. 🚆🍜
                                 </p>
+                                
+                                <!-- Action Button inside bubble -->
                                 <button class="w-full flex items-center justify-center py-2 px-3 border border-[#FF5B00] rounded-[8px] bg-white active:bg-orange-50 transition-colors">
-                                    <span class="text-[#FF5B00] text-[14px] font-medium font-poppins">查看 5 天经典路线地图</span>
+                                    <span class="text-[#FF5B00] text-[14px] font-medium font-poppins">See 5-Day Chill Plan</span>
                                 </button>
                              </div>
+                             
+                             <!-- Feedback Icons -->
                              <div class="flex flex-col gap-3 mt-2 text-[#8A8A8A]">
                                  <button class="hover:text-[#FF5B00] transition-colors"><i data-lucide="thumbs-up" width="16" height="16"></i></button>
                                  <button class="hover:text-[#FF5B00] transition-colors"><i data-lucide="thumbs-down" width="16" height="16"></i></button>
                              </div>
                         </div>
                     </div>
-                    <!-- User 2 -->
+
+                    <!-- User Message (Right) -->
                     <div class="flex flex-col items-end gap-1 mb-6 animate-[fadeIn_0.3s_ease-out_0.2s] opacity-0 fill-mode-forwards" style="animation-fill-mode: forwards;">
                         <div class="bg-[#ECF3FC] px-4 py-3 rounded-[24px] rounded-tr-[4px] max-w-[85%]">
                             <p class="text-[#212121] text-[14px] font-poppins leading-normal">
-                                听起来不错！那我想看夜景的话，函馆值得特意去一趟吗？
+                                Love that! 😍 But what about the famous Hakodate night view? Worth the detour?
                             </p>
                         </div>
                     </div>
+
                 </main>
 
-                <!-- 3.3 Bottom Input Area -->
-                <div class="absolute bottom-0 left-0 right-0 z-50 pb-8 pt-24 pointer-events-none" style="background: radial-gradient(circle at 0% 100%, rgba(255, 91, 0, 0.15) 0%, rgba(8, 180, 185, 0.05) 40%, transparent 70%);">
-                    <!-- White Fade Mask -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none"></div>
-
+                <!-- 3.3 Bottom Input Area (Simple White Background) -->
+                <div class="absolute bottom-0 left-0 right-0 z-50 bg-white pb-8 pt-4 border-t border-gray-50">
                     <!-- Input Bar -->
-                    <div class="px-5 flex items-center gap-3 relative z-10 pointer-events-auto">
+                    <div class="px-5 flex items-center gap-3">
                         <div class="flex-1 h-[48px] relative rounded-[100px] bg-white flex items-center px-5 gap-2">
                             <!-- Animated Flowing Stroke -->
                             <div class="absolute inset-0 rounded-[100px] p-[1.5px] pointer-events-none" style="background: linear-gradient(90deg, #4D46D3, #2073F9, #08B4B9, #38C78C, #FFC200, #FF5B00, #F549CA, #4D46D3, #2073F9); background-size: 200% 100%; animation: flowGradient 3s linear infinite; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;"></div>
                             
-                            <input type="text" placeholder="Type a message" class="flex-1 h-full bg-transparent outline-none text-[14px] text-[#212121] font-poppins placeholder-[#A8A8A8]">
+                            <input type="text" placeholder="Ask for a vibe check..." class="flex-1 h-full bg-transparent outline-none text-[14px] text-[#212121] font-poppins placeholder-[#A8A8A8]">
                             
                             <button class="text-[#6056D6] hover:text-[#FF5B00] transition-colors">
                                 <i data-lucide="plus-circle" width="24" height="24"></i>
