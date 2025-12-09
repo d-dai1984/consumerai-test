@@ -4,132 +4,229 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Klook AI Local Friend</title>
-    <!-- Tailwind CSS -->
+    
+    <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     
+    <!-- 
+      STYLE CONFIGURATION 
+    -->
     <style>
-        /* --- Fonts --- */
-        body { font-family: 'Poppins', 'Noto Sans SC', sans-serif; }
-        
-        /* --- Gradients & Effects from Figma --- */
-        .ai-floating-bar-bg {
-            background: linear-gradient(90deg, #FFEFE6 0%, #EDFAFA 100%);
-        }
-        
-        /* Animated Flowing Gradient & Shadow */
+        /* --- 0. Animations & Keyframes --- */
         @keyframes flowGradient {
             0% { background-position: 0% 50%; }
             100% { background-position: 200% 50%; }
         }
 
-        .ai-border-gradient-wrapper {
+        @keyframes slideUp {
+            0% {
+                transform: translateY(20%);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 1. Global Reset & Fonts --- */
+        body {
+            font-family: 'Poppins', 'Noto Sans SC', sans-serif;
+        }
+
+        /* --- Custom Gradient Classes (kept in CSS for complexity) --- */
+        .ai-gradient-border {
+            background: linear-gradient(90deg, #4D46D3, #2073F9, #08B4B9, #38C78C, #FFC200, #FF5B00, #F549CA, #4D46D3, #2073F9);
+            background-size: 200% 100%;
+            animation: flowGradient 3s linear infinite;
+        }
+
+        .ai-gradient-border::before {
+            content: "";
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -10;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            opacity: 0.6;
+            filter: blur(24px);
+            transform: translateY(0.25rem);
+            
+            background: inherit;
+            background-size: inherit;
+            animation: inherit;
+        }
+
+        .ai-content-card {
+            background: linear-gradient(90deg, #FFEFE6 0%, #EDFAFA 100%);
+        }
+        
+        .msg-row-bot {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .msg-padding {
+            padding: 20px;
+        }
+
+        .msg-bubble-bot {
+            background-color: white;
+            border: 1px solid #EEEEEE;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 100%;
+            color: #212121;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* --- AI Rainbow Border Button --- */
+        .ai-rainbow-btn {
             position: relative;
-            /* Linear gradient for flowing effect */
-            background: linear-gradient(
-                90deg, 
-                #4D46D3, #2073F9, #08B4B9, #38C78C, #FFC200, #FF5B00, #F549CA, 
-                #4D46D3, #2073F9
-            );
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+        
+        .ai-rainbow-btn::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%; 
+            padding: 2px; 
+            background: linear-gradient(90deg, #4D46D3, #2073F9, #08B4B9, #38C78C, #FFC200, #FF5B00, #F549CA, #4D46D3, #2073F9);
             background-size: 200% 100%;
             animation: flowGradient 3s linear infinite;
             
-            border-radius: 20px 20px 0 0;
-            padding: 1px 1px 0 1px;
-            /* No overflow hidden, so shadow can show */
+            -webkit-mask: 
+               linear-gradient(#fff 0 0) content-box, 
+               linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
         }
 
-        /* The Glowing Shadow */
-        .ai-border-gradient-wrapper::before {
+        /* --- Fluid Gradient Background Animation --- */
+        @keyframes fluidGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .input-bg-gradient {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            overflow: hidden; 
+        }
+
+        .input-bg-gradient::before {
             content: "";
             position: absolute;
             inset: 0;
             z-index: -1;
-            background: inherit; /* Use same gradient */
-            background-size: inherit;
-            animation: inherit; /* Sync animation */
-            border-radius: 20px 20px 0 0;
-            filter: blur(12px);
+            background-size: 200% 200%;
+            background-image: 
+                radial-gradient(circle at 85% 60%, rgba(8, 180, 185, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 10% 60%, rgba(255, 91, 0, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(77, 70, 211, 0.2) 0%, transparent 50%);
+            animation: fluidGradient 8s ease-in-out infinite;
             opacity: 0.6;
-            transform: translateY(4px);
         }
 
-        .ai-content-inner {
-            border-radius: 19px 19px 0 0;
-            height: 100%;
-            /* Ensure background covers the center */
-            position: relative;
-            z-index: 1; 
+        .input-bg-gradient::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 1) 0%, 
+                rgba(255, 255, 255, 0.8) 40%,
+                transparent 100%
+            );
+            z-index: 1;
+            pointer-events: none;
         }
 
-        /* Animations */
-        @keyframes slideUp {
-            0% { transform: translateY(120%); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
+        /* --- 7. Animation Utilities --- */
         .animate-slide-up {
-            /* 优化后的弹性曲线 (Spring Physics) */
-            /* cubic-bezier(0.34, 1.56, 0.64, 1) 利用贝塞尔曲线自带的 Overshoot 实现丝滑回弹 */
-            /* 1.56 表示会向上冲过头约 56% 然后平滑回落，比手动 Keyframe 更自然 */
-            animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: slideUp 0.8s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
         }
 
-        /* Hide Scrollbar */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="h-screen w-full flex items-center justify-center bg-gray-50 antialiased">
 
-    <!-- Smoother Outline Phone Mockup -->
-    <!-- Added 'antialiased' to body for font smoothing -->
-    <!-- Changed border to 8px and dark gray (#333) -->
-    <!-- Optimized border-radius: outer is 56px, inner screen is 48px to create concentric smoothing -->
-    <div class="relative w-[390px] h-[812px] bg-white rounded-[56px] overflow-hidden border-[8px] border-[#333] shadow-2xl z-10 transition-all duration-500 box-content">
+    <!-- === MAIN PHONE CONTAINER === -->
+    <div class="phone-frame relative w-[390px] h-[812px] bg-white rounded-[56px] overflow-hidden border-[8px] border-[#333] shadow-2xl z-10 transition-all duration-500 box-content">
         
-        <!-- Status Bar Mockup -->
-        <div class="absolute top-0 left-0 right-0 h-12 z-50 flex justify-between items-end px-7 pb-2 text-black font-semibold text-[15px] mix-blend-difference pointer-events-none select-none">
+        <!-- A. SYSTEM UI -->
+        <div class="status-bar absolute top-0 left-0 right-0 h-12 z-50 flex justify-between items-end px-7 pb-2 text-black font-semibold text-[15px] mix-blend-difference pointer-events-none select-none">
              <span>9:41</span>
              <div class="flex gap-1.5 items-center">
                  <i data-lucide="signal" width="16" height="16"></i>
                  <i data-lucide="wifi" width="16" height="16"></i>
-                 <div class="w-6 h-3 border-[1.5px] border-current rounded-[4px] relative opacity-90"><div class="absolute inset-0.5 bg-current rounded-[1px]"></div></div>
+                 <div class="w-6 h-3 border-[1.5px] border-current rounded-[4px] relative opacity-90">
+                    <div class="absolute inset-0.5 bg-current rounded-[1px]"></div>
+                 </div>
              </div>
         </div>
-        
-        <!-- Notch (Smoother Dynamic Island) -->
-        <div class="absolute top-[11px] left-1/2 -translate-x-1/2 h-[36px] w-[126px] bg-black rounded-[24px] z-[60]"></div>
+        <div class="notch absolute top-[11px] left-1/2 -translate-x-1/2 h-[36px] w-[126px] bg-black rounded-[24px] z-[60]"></div>
+        <div class="home-indicator absolute bottom-2 left-1/2 -translate-x-1/2 w-[134px] h-[5px] bg-[#333] rounded-full z-50 pointer-events-none opacity-30 mix-blend-difference"></div>
 
-        <!-- App Screen Content (Inner Radius optimized) -->
+        <!-- B. APP CONTENT SCREEN -->
         <div class="w-full h-full bg-white relative overflow-hidden rounded-[46px]">
             
-            <!-- 1. Background Image -->
+            <!-- B1. Background Layer -->
             <div class="absolute inset-0 z-0">
-                <img src="./assets/background-image.png" 
-                     class="w-full h-full object-cover" 
-                     alt="Background">
+                <img src="./assets/background-image.png" class="w-full h-full object-cover" alt="Background">
             </div>
-
-            <!-- 2. AI Floating Bar -->
-            <div id="ai-entry-bar" class="absolute bottom-0 left-0 right-0 z-20 cursor-pointer animate-slide-up">
-                <div class="ai-border-gradient-wrapper ai-floating-bar-shadow transition-transform active:scale-[0.98]">
-                    <div class="ai-content-inner ai-floating-bar-bg pb-12 pt-2 px-6">
+            
+            <!-- B2. AI Entry Bar (Floating State) -->
+            <div id="ai-entry-bar" class="ai-entry-container absolute bottom-0 left-0 right-0 z-20 cursor-pointer animate-slide-up">
+                <!-- Wrapper for Gradient Border -->
+                <div class="ai-gradient-border relative rounded-t-[20px] p-[1px] transition-transform active:scale-[0.98]">
+                    <!-- Inner Content -->
+                    <div class="ai-content-card rounded-t-[19px] h-full relative z-10 pb-12 pt-2 px-6">
+                        <!-- Handle Bar -->
                         <div class="w-full flex justify-center pb-3 pt-1">
                             <div class="w-10 h-1 bg-gray-300/50 rounded-full"></div>
                         </div>
+                        
+                        <!-- Content Row -->
                         <div class="flex items-start gap-3">
-                            <div class="mt-0.5 flex-shrink-0">
+                            <div class="mt-1.5 flex-shrink-0">
                                 <img src="./assets/ai-icon.svg" width="16" height="16" alt="AI Icon">
                             </div>
-                            <div class="flex-1">
-                                <p class="text-[13px] text-gray-900 leading-snug font-poppins">
-                                    I have <b>a better</b> way to enjoy the "Million Dollar Night View" - just skip the ropeway lines!
-                                </p>
-                            </div>
-                            <div class="mt-0.5 text-gray-400">
+                            
+                            <!-- Replaced two tags with a single sentence copy -->
+                            <p class="flex-1 text-[13px] font-medium text-[#222222] leading-relaxed">
+                                I have a better way to enjoy the <b>“Million Dollar Night View”</b> – just skip the ropeway lines!
+                            </p>
+                            
+                            <div class="mt-1.5 text-gray-400">
                                 <i data-lucide="chevron-up" width="18" height="18"></i>
                             </div>
                         </div>
@@ -137,166 +234,223 @@
                 </div>
             </div>
 
-            <!-- 3. Chat Interface -->
-            <div id="chat-interface" class="absolute inset-0 z-30 bg-white transform translate-y-full transition-transform duration-300 ease-out flex flex-col pt-[47px]">
+            <!-- B3. Chat Interface Overlay (Expanded State) -->
+            <div id="chat-interface" class="chat-overlay absolute inset-0 z-30 bg-white transform translate-y-full transition-transform duration-300 ease-out flex flex-col pt-[47px]">
                 
-                <!-- 3.1 Header -->
-                <header class="absolute top-0 left-0 right-0 h-[92px] z-40">
+                <!-- Header -->
+                <header class="chat-header absolute top-0 left-0 right-0 h-[92px] z-40">
+                    <!-- Spacer for Status Bar -->
                     <div class="h-[47px] w-full bg-white/80 backdrop-blur-md"></div>
-                    <div class="h-[45px] w-full bg-white/80 backdrop-blur-md flex items-center px-4 relative border-b border-gray-50">
+                    <!-- Navigation Bar -->
+                    <div class="chat-header-bar h-[45px] w-full bg-white/80 backdrop-blur-md flex items-center px-4 relative border-b border-gray-50">
                         <button id="close-chat" class="w-10 h-10 flex items-center justify-center -ml-2 text-[#212121]">
                             <i data-lucide="chevron-left" width="24" height="24"></i>
                         </button>
                         <div class="absolute left-1/2 -translate-x-1/2 font-poppins font-semibold text-[16px] text-[#212121]">
-                            Hokkaido Local Friend
+                            Mastering Hokkaido
                         </div>
                     </div>
                 </header>
 
-                <!-- 3.2 Chat Body -->
-                <main id="chat-container" class="flex-1 overflow-y-auto bg-white px-5 py-4 pt-[60px] pb-[160px] scroll-smooth">
-                    <div class="text-center mb-6">
-                        <span class="text-[#8A8A8A] text-[12px] font-poppins">14:25</span>
-                    </div>
-                    <!-- User -->
-                    <div class="flex flex-col items-end gap-1 mb-6">
-                        <div class="bg-[#ECF3FC] px-4 py-3 rounded-[24px] rounded-tr-[4px] max-w-[85%]">
-                            <p class="text-[#212121] text-[14px] font-poppins leading-normal">
-                                First time in Hokkaido! ❄️ Want the highlights but wanna keep it chill. Any pro tips?
-                            </p>
+                <!-- Chat Body (Scrollable) -->
+                <main id="chat-container" class="chat-container flex-1 overflow-y-auto bg-white px-5 py-4 pt-[60px] pb-[160px] scroll-smooth">
+                    
+                    <!-- User Message 1 -->
+                    <div class="msg-row-user flex flex-col items-end gap-1 mb-6">
+                        <div class="msg-bubble-user msg-padding bg-[#ECF3FC] rounded-[24px] rounded-tr-[4px] max-w-[85%] text-[#212121] text-[14px] leading-normal">
+                            First time in Hokkaido! ❄️ Want the highlights but wanna keep it chill. Any pro tips?
                         </div>
                     </div>
-                    <!-- Bot -->
-                    <div class="flex flex-col gap-1 mb-6 animate-[fadeIn_0.3s_ease-out]">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="text-[#8A8A8A] text-[12px] font-poppins">Local Friend</span>
+
+                    <!-- Bot Message 1 -->
+                    <div class="msg-row-bot flex flex-col gap-1 mb-6 w-full">
+                        <!-- Bot Identity -->
+                        <div class="flex items-center gap-2 mb-1 px-1">
+                            <span class="text-[#8A8A8A] text-[12px] font-poppins">Nori_(ノリ) / Yuki</span>
                         </div>
-                        <div class="flex gap-2 items-start">
-                             <div class="bg-white border-[1.5px] border-[#EEEEEE] rounded-[16px] p-3 max-w-[85%] shadow-sm">
-                                <p class="text-[#212121] text-[14px] font-poppins leading-normal mb-3">
-                                    Got you! For a first trip, the <b>'Golden Triangle'</b> is the move. 👇<br><br>Skip the long travel times. Stick to <b>Sapporo, Otaru, & Noboribetsu</b>. Best food, snowy vibes, and super easy trains. 🚆🍜
+                        
+                        <!-- Message Content -->
+                        <div class="msg-bubble-bot msg-padding w-full">
+                            <div>
+                                <!-- 1. Welcome Text -->
+                                <p class="text-[#212121] text-[14px] leading-relaxed mb-4 whitespace-pre-wrap">Got you! For a first trip, the <b>'Golden Triangle'</b> is the move. 👇
+                                    <br>Skip the long travel times. Stick to <b>Sapporo, Otaru, & Noboribetsu</b>. Best food, snowy vibes, and super easy trains. 🚆🍜
                                 </p>
-                                <button class="w-full flex items-center justify-center py-2 px-3 border border-[#FF5B00] rounded-[8px] bg-white active:bg-orange-50 transition-colors">
-                                    <span class="text-[#FF5B00] text-[14px] font-medium font-poppins">See 5-Day Chill Plan</span>
-                                </button>
-                             </div>
-                             <div class="flex flex-col gap-3 mt-2 text-[#8A8A8A]">
-                                 <button class="hover:text-[#FF5B00] transition-colors"><i data-lucide="thumbs-up" width="16" height="16"></i></button>
-                                 <button class="hover:text-[#FF5B00] transition-colors"><i data-lucide="thumbs-down" width="16" height="16"></i></button>
-                             </div>
+
+                                <!-- 2. Product Section -->
+                                <div class="w-full">
+                                    <h4 class="font-poppins font-semibold text-[16px] text-[#212121] mb-3">Must-dos in here</h4>
+                                    
+                                    <!-- Product Card -->
+                                    <div class="bg-white rounded-[12px] p-0">
+                                        
+                                        <!-- Image Scroll -->
+                                        <div class="flex gap-3 overflow-x-auto pb-0 snap-x hide-scrollbar mb-2">
+                                            <div class="w-[160px] h-[100px] flex-shrink-0 rounded-[8px] overflow-hidden snap-start relative bg-gray-100 border border-gray-100">
+                                                <img src="./assets/niseko-1.png" class="w-full h-full object-cover">
+                                            </div>
+                                            <div class="w-[160px] h-[100px] flex-shrink-0 rounded-[8px] overflow-hidden snap-start relative bg-gray-100 border border-gray-100">
+                                                <img src="./assets/niseko-2.png" class="w-full h-full object-cover">
+                                            </div>
+                                            <div class="w-[160px] h-[100px] flex-shrink-0 rounded-[8px] overflow-hidden snap-start relative bg-gray-100 border border-gray-100">
+                                                <img src="./assets/niseko-3.png" class="w-full h-full object-cover">
+                                            </div>
+                                            <div class="w-[160px] h-[100px] flex-shrink-0 rounded-[8px] overflow-hidden snap-start relative bg-gray-100 border border-gray-100">
+                                                <img src="./assets/niseko-4.png" class="w-full h-full object-cover">
+                                            </div>
+                                        </div>
+
+                                        <!-- Info -->
+                                        <div class="flex flex-col gap-2">
+                                            <h5 class="font-poppins font-semibold text-[14px] text-[#212121] leading-[1.5em] line-clamp-2">
+                                                Niseko Ski Resort - New Chitose Airport & Sapporo Shuttle Bus
+                                            </h5>
+                                            
+                                            <!-- Rating Row -->
+                                            <div class="flex items-center flex-wrap gap-2 text-[12px] text-[#757575]">
+                                                <div class="flex items-center gap-0.5 bg-[#F1EEFA] text-[#6056D6] px-1.5 py-0.5 rounded-[4px] border border-[#DBD5F9] h-[21px]">
+                                                    <span class="font-semibold text-[12px]">4.8</span>
+                                                    <i data-lucide="star" width="10" height="10" class="fill-current"></i>
+                                                </div>
+                                                <span>876 reviews</span>
+                                                <span class="w-0.5 h-0.5 bg-gray-400 rounded-full"></span>
+                                                <span>100K+ booked</span>
+                                            </div>
+
+                                            <!-- Tags -->
+                                            <div class="flex flex-wrap gap-1.5">
+                                                <span class="px-1.5 py-0.5 bg-[#F5F5F5] text-[#757575] text-[12px] rounded-[2px] leading-[1.32]">
+                                                    Free cancellation
+                                                </span>
+                                                <span class="px-1.5 py-0.5 bg-[#F5F5F5] text-[#757575] text-[12px] rounded-[2px] leading-[1.32]">
+                                                    Book now for tomorrow
+                                                </span>
+                                            </div>
+
+                                            <!-- Footer: Price & Action -->
+                                            <div class="flex items-end justify-between pt-1">
+                                                <div class="flex items-baseline gap-1">
+                                                    <span class="text-[14px] text-[#212121] font-normal font-poppins">From</span>
+                                                    <span class="text-[14px] font-semibold text-[#212121] font-poppins">NT$39.65</span>
+                                                </div>
+                                                <button class="flex items-center gap-1 bg-white text-[#6056D6] text-[14px] font-normal px-0 py-0 active:scale-95 transition-transform font-poppins">
+                                                    <i data-lucide="heart" width="16" height="16"></i>
+                                                    Save
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Feedback Controls -->
+                        <div class="flex justify-end gap-4 mt-1 pr-2 text-[#8A8A8A]">
+                            <button class="hover:text-[#FF5B00] transition-colors">
+                                <i data-lucide="thumbs-up" width="16" height="16"></i>
+                            </button>
+                            <button class="hover:text-[#FF5B00] transition-colors">
+                                <i data-lucide="thumbs-down" width="16" height="16"></i>
+                            </button>
                         </div>
                     </div>
-                    <!-- User 2 -->
-                    <div class="flex flex-col items-end gap-1 mb-6 animate-[fadeIn_0.3s_ease-out_0.2s] opacity-0 fill-mode-forwards" style="animation-fill-mode: forwards;">
-                        <div class="bg-[#ECF3FC] px-4 py-3 rounded-[24px] rounded-tr-[4px] max-w-[85%]">
-                            <p class="text-[#212121] text-[14px] font-poppins leading-normal">
-                                Love that! 😍 But what about the famous Hakodate night view? Worth the detour?
-                            </p>
+
+                    <!-- User Message 2 (Delayed Animation) -->
+                    <div class="msg-row-user flex flex-col items-end gap-1 mb-6 animate-[fadeIn_0.3s_ease-out_0.2s] opacity-0" style="animation-fill-mode: forwards;">
+                        <div class="msg-bubble-user msg-padding bg-[#ECF3FC] rounded-[24px] rounded-tr-[4px] max-w-[85%] text-[#212121] text-[14px] leading-normal">
+                            Love that! 😍 But what about the famous Hakodate night view? Worth the detour?
                         </div>
                     </div>
                 </main>
 
-                <!-- 3.3 Bottom Input Area (Simple White Background) -->
-                <div class="absolute bottom-0 left-0 right-0 z-50 bg-white pb-8 pt-4 border-t border-gray-50">
-                    <!-- Input Bar -->
-                    <div class="px-5 flex items-center gap-3">
-                        <div class="flex-1 h-[48px] relative rounded-[100px] bg-white flex items-center px-5 gap-2">
-                            <!-- Animated Flowing Stroke -->
-                            <div class="absolute inset-0 rounded-[100px] p-[1.5px] pointer-events-none" style="background: linear-gradient(90deg, #4D46D3, #2073F9, #08B4B9, #38C78C, #FFC200, #FF5B00, #F549CA, #4D46D3, #2073F9); background-size: 200% 100%; animation: flowGradient 3s linear infinite; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;"></div>
-                            
-                            <input type="text" placeholder="Ask for a vibe check..." class="flex-1 h-full bg-transparent outline-none text-[14px] text-[#212121] font-poppins placeholder-[#A8A8A8]">
-                            
-                            <button class="text-[#6056D6] hover:text-[#FF5B00] transition-colors">
-                                <i data-lucide="plus-circle" width="24" height="24"></i>
-                            </button>
+                <!-- Input Area -->
+                <div id="input-area-wrapper" class="input-area-wrapper absolute bottom-0 left-0 right-0 z-50 input-bg-gradient pb-8 pt-12 flex flex-col justify-end transition-opacity duration-300">
+                    <!-- Field Container matching Figma 'field' -->
+                    <div class="field-container w-full h-[50px] px-4 flex items-center justify-center gap-[10px]">
+                        
+                        <!-- 1. AI Mic Button (Left) -->
+                        <button class="ai-rainbow-btn active:scale-95 transition-transform flex-shrink-0">
+                            <img src="./assets/icon-mic.svg" width="24" height="24" alt="Mic">
+                        </button>
+
+                        <!-- 2. Input Field (Right) -->
+                        <div class="w-[190px] h-[50px] bg-white border border-[#E6E6E6] rounded-[25px] flex items-center px-4 gap-1.5 shadow-sm">
+                            <img src="./assets/icon-keyboard.svg" width="24" height="15" alt="Keyboard">
+                            <input type="text" placeholder="Type a message" class="flex-1 h-full bg-transparent outline-none text-[14px] text-[#212121] font-poppins placeholder-[#757575]">
                         </div>
+
                     </div>
                 </div>
 
             </div>
-
-            <!-- Home Indicator -->
-            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-[134px] h-[5px] bg-[#333] rounded-full z-50 pointer-events-none opacity-30 mix-blend-difference"></div>
+            <!-- End Chat Interface -->
 
         </div>
     </div>
 
-    <!-- Logic -->
+    <!-- === INTERACTION LOGIC === -->
     <script>
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Initialize Icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
 
-        const entryBar = document.getElementById('ai-entry-bar');
-        const chatInterface = document.getElementById('chat-interface');
-        const closeChatBtn = document.getElementById('close-chat');
-        const chatContainer = document.getElementById('chat-container');
-        let hasStartedChat = false;
+            // 2. DOM Elements
+            const elements = {
+                entryBar: document.getElementById('ai-entry-bar'),
+                chatInterface: document.getElementById('chat-interface'),
+                closeChatBtn: document.getElementById('close-chat'),
+                chatContainer: document.getElementById('chat-container'),
+                inputWrapper: document.getElementById('input-area-wrapper')
+            };
 
-        // Open Chat
-        entryBar.addEventListener('click', () => {
-            chatInterface.classList.remove('translate-y-full');
-            chatInterface.classList.add('translate-y-0');
-            
-            if (!hasStartedChat) {
-                startConversation();
-                hasStartedChat = true;
+            // 3. State Management
+            let state = {
+                hasStartedChat: false,
+                isScrolling: null
+            };
+
+            // Scroll Interaction Logic
+            if (elements.chatContainer && elements.inputWrapper) {
+                elements.chatContainer.addEventListener('scroll', () => {
+                    // Hide input area on scroll
+                    elements.inputWrapper.classList.add('opacity-0', 'pointer-events-none');
+                    
+                    // Clear existing timeout
+                    window.clearTimeout(state.isScrolling);
+
+                    // Set timeout to show input area after scroll stops
+                    state.isScrolling = setTimeout(() => {
+                        elements.inputWrapper.classList.remove('opacity-0', 'pointer-events-none');
+                    }, 150);
+                });
+            }
+
+            // 4. Event Handlers
+            if (elements.entryBar && elements.chatInterface) {
+                // Open Chat Flow
+                elements.entryBar.addEventListener('click', () => {
+                    elements.chatInterface.classList.remove('translate-y-full');
+                    elements.chatInterface.classList.add('translate-y-0');
+                    
+                    if (!state.hasStartedChat) {
+                        state.hasStartedChat = true;
+                    }
+                });
+            }
+
+            if (elements.closeChatBtn && elements.chatInterface) {
+                // Close Chat Flow
+                elements.closeChatBtn.addEventListener('click', () => {
+                    elements.chatInterface.classList.add('translate-y-full');
+                    elements.chatInterface.classList.remove('translate-y-0');
+                });
             }
         });
-
-        // Close Chat
-        closeChatBtn.addEventListener('click', () => {
-            chatInterface.classList.add('translate-y-full');
-            chatInterface.classList.remove('translate-y-0');
-        });
-
-        function startConversation() {
-            // Delay slightly for natural feel
-            setTimeout(() => {
-                appendAiMessage("✨ Perfect night for Hakodate's view! Skip the ropeway queues with this smart shortcut.");
-                
-                // Then show the "product" card
-                setTimeout(() => {
-                    appendProductCard();
-                }, 600);
-            }, 300);
-        }
-
-        function appendAiMessage(text) {
-            const div = document.createElement('div');
-            div.className = 'flex w-full mb-4 animate-[fadeIn_0.3s_ease-out]';
-            div.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center mr-2 flex-shrink-0 border border-gray-200 text-lg shadow-sm">🤖</div>
-                <div class="bg-white text-gray-800 px-4 py-3 rounded-2xl rounded-tl-none border border-gray-100 shadow-sm max-w-[85%] text-sm leading-relaxed">
-                    ${text}
-                </div>
-            `;
-            chatContainer.appendChild(div);
-        }
-
-        function appendProductCard() {
-            const div = document.createElement('div');
-            div.className = 'flex w-full mb-4 animate-[fadeIn_0.3s_ease-out] pl-10'; // Indent
-            div.innerHTML = `
-                <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 w-64 cursor-pointer hover:shadow-lg transition-shadow">
-                    <div class="h-32 bg-gray-200 relative">
-                        <img src="https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_680/v1677464736/blog/vt1i9k7q5z8j5j5j5j5j.jpg" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-[#FF5B00] text-white px-2 py-0.5 rounded text-xs font-bold shadow-sm">Fast Track</div>
-                    </div>
-                    <div class="p-3">
-                        <h4 class="font-bold text-gray-800 text-sm mb-1 line-clamp-2">Mt. Hakodate Night View Bus Tour</h4>
-                        <div class="flex items-center text-xs text-gray-500 mb-2">
-                             <i data-lucide="star" size="12" class="text-yellow-400 fill-current mr-1"></i> 4.8 (2k+)
-                        </div>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="font-bold text-[#FF5B00]">¥ 2,500</span>
-                            <span class="bg-gray-100 px-2 py-1 rounded text-xs text-gray-600 font-medium">Book Now</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            chatContainer.appendChild(div);
-            lucide.createIcons();
-        }
-
     </script>
 </body>
 </html>
+
+
