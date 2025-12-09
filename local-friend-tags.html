@@ -15,12 +15,12 @@
         /* --- Fonts --- */
         body { font-family: 'Poppins', 'Noto Sans SC', sans-serif; }
         
-        /* --- Gradients & Effects from Figma --- */
+        /* --- Gradients & Effects --- */
         .ai-floating-bar-bg {
             background: linear-gradient(90deg, #FFEFE6 0%, #EDFAFA 100%);
         }
         
-        /* Animated Flowing Gradient & Shadow */
+        /* Animated Flowing Gradient */
         @keyframes flowGradient {
             0% { background-position: 0% 50%; }
             100% { background-position: 200% 50%; }
@@ -28,7 +28,6 @@
 
         .ai-border-gradient-wrapper {
             position: relative;
-            /* Linear gradient for flowing effect */
             background: linear-gradient(
                 90deg, 
                 #4D46D3, #2073F9, #08B4B9, #38C78C, #FFC200, #FF5B00, #F549CA, 
@@ -36,10 +35,8 @@
             );
             background-size: 200% 100%;
             animation: flowGradient 3s linear infinite;
-            
             border-radius: 20px 20px 0 0;
             padding: 1px 1px 0 1px;
-            /* No overflow hidden, so shadow can show */
         }
 
         /* The Glowing Shadow */
@@ -48,9 +45,9 @@
             position: absolute;
             inset: 0;
             z-index: -1;
-            background: inherit; /* Use same gradient */
+            background: inherit; 
             background-size: inherit;
-            animation: inherit; /* Sync animation */
+            animation: inherit;
             border-radius: 20px 20px 0 0;
             filter: blur(12px);
             opacity: 0.6;
@@ -60,7 +57,6 @@
         .ai-content-inner {
             border-radius: 19px 19px 0 0;
             height: 100%;
-            /* Ensure background covers the center */
             position: relative;
             z-index: 1; 
         }
@@ -71,9 +67,6 @@
             100% { transform: translateY(0); opacity: 1; }
         }
         .animate-slide-up {
-            /* 优化后的弹性曲线 (Spring Physics) */
-            /* cubic-bezier(0.34, 1.56, 0.64, 1) 利用贝塞尔曲线自带的 Overshoot 实现丝滑回弹 */
-            /* 1.56 表示会向上冲过头约 56% 然后平滑回落，比手动 Keyframe 更自然 */
             animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
@@ -84,13 +77,10 @@
 </head>
 <body class="h-screen w-full flex items-center justify-center bg-gray-50 antialiased">
 
-    <!-- Smoother Outline Phone Mockup -->
-    <!-- Added 'antialiased' to body for font smoothing -->
-    <!-- Changed border to 8px and dark gray (#333) -->
-    <!-- Optimized border-radius: outer is 56px, inner screen is 48px to create concentric smoothing -->
+    <!-- Phone Mockup Container -->
     <div class="relative w-[390px] h-[812px] bg-white rounded-[56px] overflow-hidden border-[8px] border-[#333] shadow-2xl z-10 transition-all duration-500 box-content">
         
-        <!-- Status Bar Mockup -->
+        <!-- Status Bar -->
         <div class="absolute top-0 left-0 right-0 h-12 z-50 flex justify-between items-end px-7 pb-2 text-black font-semibold text-[15px] mix-blend-difference pointer-events-none select-none">
              <span>9:41</span>
              <div class="flex gap-1.5 items-center">
@@ -100,47 +90,37 @@
              </div>
         </div>
         
-        <!-- Notch (Smoother Dynamic Island) -->
+        <!-- Notch -->
         <div class="absolute top-[11px] left-1/2 -translate-x-1/2 h-[36px] w-[126px] bg-black rounded-[24px] z-[60]"></div>
 
-        <!-- App Screen Content (Inner Radius optimized) -->
+        <!-- App Screen -->
         <div class="w-full h-full bg-white relative overflow-hidden rounded-[46px]">
             
             <!-- 1. Background Image -->
             <div class="absolute inset-0 z-0">
-                <img src="./assets/background-image.png" 
-                     class="w-full h-full object-cover" 
-                     alt="Background">
+                <img src="./assets/background-image.png" class="w-full h-full object-cover" alt="Background">
             </div>
 
-            <!-- 2. AI Floating Bar -->
+            <!-- 2. AI Floating Bar (Entry) -->
             <div id="ai-entry-bar" class="absolute bottom-0 left-0 right-0 z-20 cursor-pointer animate-slide-up">
-                <div class="ai-border-gradient-wrapper ai-floating-bar-shadow transition-transform active:scale-[0.98]">
+                <div class="ai-border-gradient-wrapper transition-transform active:scale-[0.98]">
                     <div class="ai-content-inner ai-floating-bar-bg pb-12 pt-2 px-6">
                         <div class="w-full flex justify-center pb-3 pt-1">
                             <div class="w-10 h-1 bg-gray-300/50 rounded-full"></div>
                         </div>
-                        <!-- Content Row -->
                         <div class="flex items-start gap-3">
-                            <!-- Icon -->
                             <div class="mt-1.5 flex-shrink-0">
                                 <img src="./assets/ai-icon.svg" width="16" height="16" alt="AI Icon">
                             </div>
-
-                            <!-- Tags Container -->
                             <div class="flex-1 flex flex-wrap gap-2">
-                                <!-- Tag 1 -->
                                 <div class="bg-white border border-[#EEEEEE] rounded-full px-3 py-1.5 shadow-sm active:scale-95 transition-transform flex items-center justify-center">
                                     <span class="text-[13px] font-medium text-[#222222] font-poppins leading-tight">Got a few hours?</span>
                                 </div>
-                                <!-- Tag 2 -->
                                 <div class="bg-white border border-[#EEEEEE] rounded-full px-3 py-1.5 shadow-sm active:scale-95 transition-transform flex items-center justify-center">
                                     <span class="text-[13px] font-medium text-[#222222] font-poppins leading-tight">Enjoy the snow!</span>
                                 </div>
                             </div>
-                            
-                            <!-- Arrow (Implicit affordance) -->
-                             <div class="mt-1.5 text-gray-400">
+                            <div class="mt-1.5 text-gray-400">
                                 <i data-lucide="chevron-up" width="18" height="18"></i>
                             </div>
                         </div>
@@ -149,32 +129,84 @@
             </div>
 
             <!-- 3. Chat Interface -->
-            <div id="chat-interface" class="absolute inset-0 z-30 bg-gray-50 transform translate-y-full transition-transform duration-300 ease-out flex flex-col pt-12">
-                <header class="bg-white/90 backdrop-blur-md px-5 py-3 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
-                    <div class="flex items-center">
-                        <button id="close-chat" class="mr-3 text-gray-600 hover:bg-gray-100 p-1 rounded-full transition-colors">
-                            <i data-lucide="chevron-down"></i>
+            <div id="chat-interface" class="absolute inset-0 z-30 bg-white transform translate-y-full transition-transform duration-300 ease-out flex flex-col pt-[47px]">
+                
+                <!-- 3.1 Header -->
+                <header class="absolute top-0 left-0 right-0 h-[92px] z-40">
+                    <div class="h-[47px] w-full bg-white/80 backdrop-blur-md"></div>
+                    <div class="h-[45px] w-full bg-white/80 backdrop-blur-md flex items-center px-4 relative border-b border-gray-50">
+                        <button id="close-chat" class="w-10 h-10 flex items-center justify-center -ml-2 text-[#212121]">
+                            <i data-lucide="chevron-left" width="24" height="24"></i>
                         </button>
-                        <div class="flex items-center">
-                            <div class="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></div>
-                            <h1 class="font-bold text-gray-800 text-lg">Local Friend</h1>
+                        <div class="absolute left-1/2 -translate-x-1/2 font-poppins font-semibold text-[16px] text-[#212121]">
+                            Hokkaido Local Friend
                         </div>
                     </div>
-                    <button class="text-gray-400">
-                        <i data-lucide="more-horizontal"></i>
-                    </button>
                 </header>
-                <main id="chat-container" class="flex-1 overflow-y-auto p-5 pb-32 scroll-smooth">
-                    <!-- Messages go here -->
+
+                <!-- 3.2 Chat Body -->
+                <main id="chat-container" class="flex-1 overflow-y-auto bg-white px-5 py-4 pt-[60px] pb-[160px] scroll-smooth">
+                    <div class="text-center mb-6">
+                        <span class="text-[#8A8A8A] text-[12px] font-poppins">14:25</span>
+                    </div>
+                    <!-- User -->
+                    <div class="flex flex-col items-end gap-1 mb-6">
+                        <div class="bg-[#ECF3FC] px-4 py-3 rounded-[24px] rounded-tr-[4px] max-w-[85%]">
+                            <p class="text-[#212121] text-[14px] font-poppins leading-normal">
+                                第一次去北海道，有点不知道怎么玩，主要是不想太累。
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Bot -->
+                    <div class="flex flex-col gap-1 mb-6 animate-[fadeIn_0.3s_ease-out]">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-[#8A8A8A] text-[12px] font-poppins">Local Friend</span>
+                        </div>
+                        <div class="flex gap-2 items-start">
+                             <div class="bg-white border-[1.5px] border-[#EEEEEE] rounded-[16px] p-3 max-w-[85%] shadow-sm">
+                                <p class="text-[#212121] text-[14px] font-poppins leading-normal mb-3">
+                                    第一次去的话，千万别贪心！北海道很大的。<br><br>如果不自驾，我建议只锁定<b>札幌、小樽、登别</b>这三个经典三角区，交通方便又轻松。🚆
+                                </p>
+                                <button class="w-full flex items-center justify-center py-2 px-3 border border-[#FF5B00] rounded-[8px] bg-white active:bg-orange-50 transition-colors">
+                                    <span class="text-[#FF5B00] text-[14px] font-medium font-poppins">查看 5 天经典路线地图</span>
+                                </button>
+                             </div>
+                             <div class="flex flex-col gap-3 mt-2 text-[#8A8A8A]">
+                                 <button class="hover:text-[#FF5B00] transition-colors"><i data-lucide="thumbs-up" width="16" height="16"></i></button>
+                                 <button class="hover:text-[#FF5B00] transition-colors"><i data-lucide="thumbs-down" width="16" height="16"></i></button>
+                             </div>
+                        </div>
+                    </div>
+                    <!-- User 2 -->
+                    <div class="flex flex-col items-end gap-1 mb-6 animate-[fadeIn_0.3s_ease-out_0.2s] opacity-0 fill-mode-forwards" style="animation-fill-mode: forwards;">
+                        <div class="bg-[#ECF3FC] px-4 py-3 rounded-[24px] rounded-tr-[4px] max-w-[85%]">
+                            <p class="text-[#212121] text-[14px] font-poppins leading-normal">
+                                听起来不错！那我想看夜景的话，函馆值得特意去一趟吗？
+                            </p>
+                        </div>
+                    </div>
                 </main>
-                <div class="bg-white p-5 border-t border-gray-100 pb-12">
-                    <div class="flex items-center bg-gray-100 rounded-full px-4 py-3">
-                        <input type="text" placeholder="Reply..." class="flex-1 bg-transparent outline-none text-sm text-gray-700 h-6 placeholder-gray-400">
-                        <button class="ml-2 text-[#FF5B00]">
-                            <i data-lucide="send" size="18"></i>
-                        </button>
+
+                <!-- 3.3 Bottom Input Area -->
+                <div class="absolute bottom-0 left-0 right-0 z-50 pb-8 pt-24 pointer-events-none" style="background: radial-gradient(circle at 0% 100%, rgba(255, 91, 0, 0.15) 0%, rgba(8, 180, 185, 0.05) 40%, transparent 70%);">
+                    <!-- White Fade Mask -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none"></div>
+
+                    <!-- Input Bar -->
+                    <div class="px-5 flex items-center gap-3 relative z-10 pointer-events-auto">
+                        <div class="flex-1 h-[48px] relative rounded-[100px] bg-white flex items-center px-5 gap-2">
+                            <!-- Animated Flowing Stroke -->
+                            <div class="absolute inset-0 rounded-[100px] p-[1.5px] pointer-events-none" style="background: linear-gradient(90deg, #4D46D3, #2073F9, #08B4B9, #38C78C, #FFC200, #FF5B00, #F549CA, #4D46D3, #2073F9); background-size: 200% 100%; animation: flowGradient 3s linear infinite; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;"></div>
+                            
+                            <input type="text" placeholder="Type a message" class="flex-1 h-full bg-transparent outline-none text-[14px] text-[#212121] font-poppins placeholder-[#A8A8A8]">
+                            
+                            <button class="text-[#6056D6] hover:text-[#FF5B00] transition-colors">
+                                <i data-lucide="plus-circle" width="24" height="24"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
             <!-- Home Indicator -->
@@ -193,72 +225,19 @@
         const chatContainer = document.getElementById('chat-container');
         let hasStartedChat = false;
 
-        // Open Chat
         entryBar.addEventListener('click', () => {
             chatInterface.classList.remove('translate-y-full');
             chatInterface.classList.add('translate-y-0');
-            
             if (!hasStartedChat) {
-                startConversation();
+                // Simulate new messages appearing? For now static content is fine.
                 hasStartedChat = true;
             }
         });
 
-        // Close Chat
         closeChatBtn.addEventListener('click', () => {
             chatInterface.classList.add('translate-y-full');
             chatInterface.classList.remove('translate-y-0');
         });
-
-        function startConversation() {
-            // Delay slightly for natural feel
-            setTimeout(() => {
-                appendAiMessage("✨ Perfect night for Hakodate's view! Skip the ropeway queues with this smart shortcut.");
-                
-                // Then show the "product" card
-                setTimeout(() => {
-                    appendProductCard();
-                }, 600);
-            }, 300);
-        }
-
-        function appendAiMessage(text) {
-            const div = document.createElement('div');
-            div.className = 'flex w-full mb-4 animate-[fadeIn_0.3s_ease-out]';
-            div.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center mr-2 flex-shrink-0 border border-gray-200 text-lg shadow-sm">🤖</div>
-                <div class="bg-white text-gray-800 px-4 py-3 rounded-2xl rounded-tl-none border border-gray-100 shadow-sm max-w-[85%] text-sm leading-relaxed">
-                    ${text}
-                </div>
-            `;
-            chatContainer.appendChild(div);
-        }
-
-        function appendProductCard() {
-            const div = document.createElement('div');
-            div.className = 'flex w-full mb-4 animate-[fadeIn_0.3s_ease-out] pl-10'; // Indent
-            div.innerHTML = `
-                <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 w-64 cursor-pointer hover:shadow-lg transition-shadow">
-                    <div class="h-32 bg-gray-200 relative">
-                        <img src="https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_680/v1677464736/blog/vt1i9k7q5z8j5j5j5j5j.jpg" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-[#FF5B00] text-white px-2 py-0.5 rounded text-xs font-bold shadow-sm">Fast Track</div>
-                    </div>
-                    <div class="p-3">
-                        <h4 class="font-bold text-gray-800 text-sm mb-1 line-clamp-2">Mt. Hakodate Night View Bus Tour</h4>
-                        <div class="flex items-center text-xs text-gray-500 mb-2">
-                             <i data-lucide="star" size="12" class="text-yellow-400 fill-current mr-1"></i> 4.8 (2k+)
-                        </div>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="font-bold text-[#FF5B00]">¥ 2,500</span>
-                            <span class="bg-gray-100 px-2 py-1 rounded text-xs text-gray-600 font-medium">Book Now</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            chatContainer.appendChild(div);
-            lucide.createIcons();
-        }
-
     </script>
 </body>
 </html>
