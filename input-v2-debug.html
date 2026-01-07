@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input V2 Debug - Identical to V1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* --- 动画定义 --- */
+        @keyframes flowGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* --- 1. 流光渐变外壳 (完全同步 input-debug.html) --- */
+        .ai-input-wrapper {
+            position: relative;
+            background: linear-gradient(90deg, #4D46D3, #2073F9, #08B4B9, #38C78C, #FFC200, #FF5B00, #F549CA, #4D46D3, #2073F9);
+            background-size: 200% 100%;
+            animation: flowGradient 3s linear infinite;
+            border-radius: 100px;
+            padding: 1.5px; /* 边框粗细 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 350px;
+            box-sizing: border-box;
+        }
+
+        /* --- 2. 流光外发光 (::before) --- */
+        .ai-input-wrapper::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: 100px;
+            background: inherit;
+            background-size: inherit;
+            animation: inherit;
+            filter: blur(12px);
+            opacity: 0.6;
+        }
+
+        /* --- 3. 内部纯白输入区 --- */
+        .input-inner-content {
+            background: white;
+            border-radius: 100px;
+            width: 100%;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .input-field {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 14px;
+            color: #212121;
+            background: transparent;
+        }
+
+        .input-field::placeholder {
+            color: #8A8A8A;
+        }
+
+        .send-icon {
+            color: #212121;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-left: 6px;
+            transition: transform 0.2s;
+        }
+
+        .send-icon:active {
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 完全复制 input-debug.html 的结构 -->
+    <div class="ai-input-wrapper">
+        <div class="input-inner-content">
+            <input type="text" class="input-field" placeholder="Input something....">
+            <div class="send-icon">
+                <i data-lucide="send-horizontal" width="24" height="24"></i>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化图标
+        lucide.createIcons();
+    </script>
+</body>
+</html>
