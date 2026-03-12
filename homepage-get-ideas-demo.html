@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Homepage - Get ideas (流光)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Mobile frame mockup */
+        .phone-frame {
+            width: 390px;
+            height: 844px;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            position: relative;
+            background: #F5F5F5;
+        }
+
+        /* Scrollable content area - simulates page scroll */
+        .scroll-viewport {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 90px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .scroll-content {
+            min-height: 2500px;
+            background: url('homepage-scroll-content.png') top center/390px auto no-repeat;
+            cursor: pointer;
+        }
+
+        /* Bottom bar - fixed, separate from scroll content */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            z-index: 2;
+        }
+
+        .bottom-bar img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Flow gradient animation (from input-v2-debug.html) --- */
+        @keyframes flowGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Outer: positioning + fadeIn */
+        .get-ideas-btn-outer {
+            position: absolute;
+            bottom: 103px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: fadeIn 0.6s ease-out 0.5s both;
+        }
+
+        /* Inner: gradient + flowGradient, scroll opacity on wrapper to avoid animation conflict */
+        .get-ideas-btn-wrapper {
+            position: relative;
+            display: inline-flex;
+            transition: opacity 0.35s ease, width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 0.5px;
+            border-radius: 100px;
+            background: linear-gradient(90deg, #4D46D3, #2073F9, #08B4B9, #38C78C, #FFC200, #FF5B00, #F549CA, #4D46D3, #2073F9);
+            background-size: 200% 100%;
+            animation: flowGradient 3s linear infinite;
+            box-sizing: border-box;
+        }
+
+        .get-ideas-btn-wrapper::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: 100px;
+            background: inherit;
+            background-size: inherit;
+            animation: flowGradient 3s linear infinite;
+            filter: blur(12px);
+            opacity: 0.6;
+        }
+
+        .phone-frame.is-scrolling .get-ideas-btn-wrapper {
+            opacity: 0.5;
+        }
+
+        .get-ideas-btn-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 4px 12px;
+            height: 40px;
+            background: #FFFFFF;
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: transform 0.2s, width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 6px 0px 8px 0px rgba(49, 193, 255, 0.3), -6px 0px 8px 0px rgba(255, 129, 94, 0.3);
+        }
+
+        .get-ideas-btn-inner:focus {
+            outline: none;
+        }
+
+        .get-ideas-btn-inner:active {
+            transform: scale(0.98);
+        }
+
+        .get-ideas-btn-inner .btn-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .get-ideas-btn-inner .btn-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.32;
+            color: #212121;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="scroll-viewport">
+            <div class="scroll-content"></div>
+        </div>
+        <div class="bottom-bar">
+            <img src="tab-bar.svg" alt="">
+        </div>
+        <div class="get-ideas-btn-outer">
+            <div class="get-ideas-btn-wrapper">
+                <button type="button" class="get-ideas-btn-inner">
+                    <img src="get-ideas-icon.svg" alt="" class="btn-icon">
+                    <span class="btn-text">Get ideas</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var viewport = document.querySelector('.scroll-viewport');
+            var frame = document.querySelector('.phone-frame');
+            var scrollContent = document.querySelector('.scroll-content');
+            var btnInner = document.querySelector('.get-ideas-btn-inner');
+            var btnWrapper = document.querySelector('.get-ideas-btn-wrapper');
+            var textSpan = document.querySelector('.btn-text');
+            var scrollEndTimer;
+            var typewriterDone = false;
+
+            function setScrolling() {
+                frame.classList.add('is-scrolling');
+                clearTimeout(scrollEndTimer);
+                scrollEndTimer = setTimeout(function () {
+                    frame.classList.remove('is-scrolling');
+                }, 150);
+            }
+            viewport.addEventListener('scroll', setScrolling, { passive: true });
+            viewport.addEventListener('wheel', setScrolling, { passive: true });
+            viewport.addEventListener('touchmove', setScrolling, { passive: true });
+
+            var targetText = "Wanna some local experiences in Tokyo？";
+            var charDelay = 22;
+            var pad = 1;
+
+            function runTypewriter() {
+                if (typewriterDone) return;
+                typewriterDone = true;
+                var startW = btnInner.offsetWidth;
+                textSpan.textContent = targetText;
+                var fullW = btnInner.offsetWidth;
+                textSpan.textContent = "";
+                btnInner.style.width = startW + "px";
+                btnWrapper.style.width = (startW + pad) + "px";
+                requestAnimationFrame(function () {
+                    btnInner.style.width = fullW + "px";
+                    btnWrapper.style.width = (fullW + pad) + "px";
+                });
+                var i = 0;
+                function addChar() {
+                    if (i < targetText.length) {
+                        textSpan.textContent += targetText[i];
+                        i++;
+                        setTimeout(addChar, charDelay);
+                    }
+                }
+                addChar();
+            }
+
+            scrollContent.addEventListener("click", function (e) {
+                if (e.target === scrollContent || e.target.closest(".scroll-content")) {
+                    runTypewriter();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
