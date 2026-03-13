@@ -514,6 +514,13 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
+            /* 隐藏滚动条 */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .new-page__content::-webkit-scrollbar {
+            display: none;
         }
 
         /* New page - Input area */
